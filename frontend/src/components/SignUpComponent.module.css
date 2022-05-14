@@ -1,0 +1,17 @@
+.paper {
+    padding: 20px;
+    width: 300px;
+    margin: 20px auto;
+}
+
+.icon {
+    background-color: #42a5f5 !important;
+}
+
+.inputText {
+    margin: 8px 0px !important;
+}
+
+.btnSubmit {
+    margin: 8px 0px !important;
+}
