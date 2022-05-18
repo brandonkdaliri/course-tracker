@@ -15,3 +15,15 @@
 .btnSubmit {
     margin: 8px 0px !important;
 }
+
+.msgSuccess {
+    color: green;
+    font-size: 15px;
+    text-align: center;
+}
+
+.msgError {
+    color: red;
+    font-size: 15px;
+    text-align: center;
+}

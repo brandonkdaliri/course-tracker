@@ -11,11 +11,24 @@ export const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [wait, setWait] = useState(false);
 
+    const getCourses = async ({ id }) => {
+        setWait(true);
+        try {
+            const { data } = await Axios.post("getCourses.php", {
+                id,
+            });
+            setWait(false);
+            return data;
+        } catch (err) {
+            setWait(false);
+            return { success: 0, message: "Server Error" };
+        }
+    };
+
     const registerUser = async ({ name, email, password }) => {
         setWait(true);
-
         try {
-            const { data } = await Axios.post("register.php", {
+            const { data } = await Axios.post("signup.php", {
                 name,
                 email,
                 password,
@@ -37,8 +50,8 @@ export const UserContextProvider = ({ children }) => {
                 password,
             });
 
-            if (data.success && data.token) {
-                localStorage.setItem("loginToken", data.token);
+            if (data.success && data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
                 setWait(false);
                 return { success: 1 };
             }
@@ -52,15 +65,11 @@ export const UserContextProvider = ({ children }) => {
     };
 
     const loggedInCheck = async () => {
-        const loginToken = localStorage.getItem("loginToken");
-        Axios.defaults.headers.common["Authorization"] = "Bearer " + loginToken;
-
-        if (loginToken) {
-            const { data } = await Axios.get("getUser.php");
-            if (data.success && data.user) {
-                setUser(data.user);
-                return;
-            }
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            setUser(user);
+            return;
+        } else {
             setUser(null);
         }
     };
@@ -73,7 +82,7 @@ export const UserContextProvider = ({ children }) => {
     }, []);
 
     const logout = () => {
-        localStorage.removeItem("loginToken");
+        localStorage.removeItem("user");
         setUser(null);
     };
 

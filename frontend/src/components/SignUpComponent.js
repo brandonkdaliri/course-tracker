@@ -24,7 +24,7 @@ export default function SignUpComponent() {
 
     const onChangeInput = (e) => {
         setFormData({
-            ...FormData,
+            ...formData,
             [e.target.name]: e.target.value,
         });
     };
@@ -52,46 +52,68 @@ export default function SignUpComponent() {
         <div>
             <Grid>
                 <Paper elevation={10} className={classes.paper}>
-                    <Grid align="center">
-                        <Avatar className={classes.icon}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <h2>Sign up</h2>
-                    </Grid>
-                    <TextField
-                        label="Username"
-                        id="name"
-                        placeholder="Enter username"
-                        fullWidth={true}
-                        required
-                        className={classes.inputText}
-                    />
-                    <TextField
-                        label="Email"
-                        id="email"
-                        placeholder="Enter email"
-                        fullWidth={true}
-                        required
-                        className={classes.inputText}
-                    />
-                    <TextField
-                        label="Password"
-                        id="password"
-                        placeholder="Enter password"
-                        type="password"
-                        fullWidth={true}
-                        required
-                        className={classes.inputText}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth={true}
-                        variant="contained"
-                        color="primary"
-                        className={classes.btnSubmit}
-                    >
-                        Sign up
-                    </Button>
+                    <form onSubmit={submitForm}>
+                        <Grid align="center">
+                            <Avatar className={classes.icon}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <h2>Sign up</h2>
+                        </Grid>
+                        <TextField
+                            label="Username"
+                            name="name"
+                            placeholder="Enter username"
+                            fullWidth={true}
+                            required
+                            className={classes.inputText}
+                            onChange={onChangeInput}
+                            value={formData.name}
+                        />
+                        <TextField
+                            label="Email"
+                            name="email"
+                            placeholder="Enter email"
+                            fullWidth={true}
+                            required
+                            className={classes.inputText}
+                            onChange={onChangeInput}
+                            value={formData.email}
+                        />
+                        <TextField
+                            label="Password"
+                            name="password"
+                            placeholder="Enter password"
+                            type="password"
+                            fullWidth={true}
+                            required
+                            className={classes.inputText}
+                            onChange={onChangeInput}
+                            value={formData.password}
+                        />
+                        {successMsg && (
+                            <div className={classes.msgSuccess}>
+                                <p>
+                                    {successMsg} <Link href="/">Sign in</Link>
+                                </p>
+                            </div>
+                        )}
+                        {errMsg && (
+                            <div className={classes.msgError}>
+                                {" "}
+                                <p>{errMsg}</p>
+                            </div>
+                        )}
+                        <Button
+                            type="submit"
+                            fullWidth={true}
+                            variant="contained"
+                            color="primary"
+                            className={classes.btnSubmit}
+                            disabled={wait}
+                        >
+                            Sign up
+                        </Button>
+                    </form>
                     <Typography>
                         Already have an account? <Link href="/">Sign in</Link>
                     </Typography>
